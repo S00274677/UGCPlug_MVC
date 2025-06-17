@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "HowItWorks - ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>How UGCPlug Works</h2>
+<p>UGCPlug helps your business collect and legally use user-generated content from your customers via a simple embeddable widget.</p>
+<ul>
+    <li>Install the widget on your website</li>
+    <li>Customers submit photos, reviews, or videos</li>
+    <li>You view them in your dashboard</li>
+    <li>Every submission is backed by legal consent</li>
+</ul>
+
+<div class="border rounded p-4 shadow-sm bg-light" style="max-width: 600px; margin: auto;">
+    <h4 class="mb-3 text-center">Try the UGC Submission Widget Below</h4>
+
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data", id = "ugcForm" }))
+    {
+        <div class="mb-2">
+            <label class="form-label">First Name</label>
+            <input type="text" name="FirstName" class="form-control form-control-sm" required />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Last Name</label>
+            <input type="text" name="LastName" class="form-control form-control-sm" required />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Email</label>
+            <input type="email" name="Email" class="form-control form-control-sm" required />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">City</label>
+            <input type="text" name="City" class="form-control form-control-sm" />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Country</label>
+            <input type="text" name="Country" class="form-control form-control-sm" />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Date of Birth</label>
+            <input type="date" name="DateOfBirth" class="form-control form-control-sm" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Date Photo Was Taken</label>
+            <input type="date" name="DateTaken" class="form-control form-control-sm" max="@DateTime.Today.ToString("yyyy-MM-dd")" />
+        </div>
+
+        <div class="mb-2">
+            <label class="form-label">Upload File</label>
+            <input type="file" name="file" class="form-control form-control-sm" required />
+        </div>
+
+        <div class="form-check mb-3">
+            <input type="checkbox" name="ConsentGiven" class="form-check-input" id="consentBox" required />
+            <label class="form-check-label small" for="consentBox">
+                I give consent to use this content for marketing purposes.
+            </label>
+        </div>
+
+        <input type="hidden" name="BusinessId" value="ugc-plug" />
+
+        <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+        </div>
+
+        <div id="formResult" class="mt-3 text-center small"></div>
+    }
+</div>
+
+@section scripts {
+    <script>
+        $('#ugcForm').on('submit', function (e) {
+            e.preventDefault();
+
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: 'http://localhost:51175/api/Submissions',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function () {
+                    $('#formResult').html('<span style="color: green;">Thank you! Your submission was received.</span>');
+                    $('#ugcForm')[0].reset();
+                },
+                error: function () {
+                    $('#formResult').html('<span style="color: red;">Something went wrong. Please try again.</span>');
+                }
+            });
+        });
+    </script>
+}
+

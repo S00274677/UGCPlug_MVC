@@ -1,0 +1,38 @@
+﻿@model UGCPlug_MVC.Models.BusinessLogin
+
+@{
+    ViewBag.Title = "Register - ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Register Your Business</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">@ViewBag.Error</div>
+}
+
+@using (Html.BeginForm("Register", "Auth", FormMethod.Post, new { @class = "needs-validation", novalidate = "novalidate" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.BusinessName)
+        @Html.TextBoxFor(m => m.BusinessName, new { @class = "form-control", placeholder = "e.g., Zaff Papers" })
+        @Html.ValidationMessageFor(m => m.BusinessName)
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(m => m.BusinessEmail)
+        @Html.TextBoxFor(m => m.BusinessEmail, new { @class = "form-control", placeholder = "your@email.com", type = "email" })
+        @Html.ValidationMessageFor(m => m.BusinessEmail)
+    </div>
+
+    <div class="mb-3">
+        @Html.Label("Password")
+        @Html.PasswordFor(m => m.PasswordHash, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.PasswordHash)
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Create Account</button>
+}

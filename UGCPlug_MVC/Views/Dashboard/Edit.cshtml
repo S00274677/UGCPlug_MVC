@@ -1,0 +1,126 @@
+﻿@model UGCPlug_MVC.Models.Submission
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Submission</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="form-group row">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(m => m.City, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.City, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(m => m.Country, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Country, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Country, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(m => m.DateTaken, new { @class = "col-md-2 col-form-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.DateTaken, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.ValidationMessageFor(m => m.DateTaken, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @* Locked: DateOfBirth *@
+        @Html.HiddenFor(m => m.DateOfBirth)
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label">Date of Birth</label>
+            <div class="col-md-10">
+                <p class="form-control-plaintext">
+                    @(Model.DateOfBirth.HasValue ? Model.DateOfBirth.Value.ToString("dd/MM/yyyy") : "")
+                </p>
+
+            </div>
+        </div>
+
+        @* Locked: FileUrl *@
+        @Html.HiddenFor(m => m.FileUrl)
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label">File URL</label>
+            <div class="col-md-10">
+                <p class="form-control-plaintext">@Model.FileUrl</p>
+            </div>
+        </div>
+
+        @* Locked: ConsentGiven *@
+        @Html.HiddenFor(m => m.ConsentGiven)
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label">Consent Given</label>
+            <div class="col-md-10">
+                <p class="form-control-plaintext">@(Model.ConsentGiven ? "Yes" : "No")</p>
+            </div>
+        </div>
+
+        @* Locked: BusinessId *@
+        @Html.HiddenFor(m => m.BusinessId)
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label">Business ID</label>
+            <div class="col-md-10">
+                <p class="form-control-plaintext">@Model.BusinessId</p>
+            </div>
+        </div>
+
+        @* Locked: DateSubmitted *@
+        @Html.HiddenFor(m => m.DateSubmitted)
+        <div class="form-group row">
+            <label class="col-md-2 col-form-label">Date Submitted</label>
+            <div class="col-md-10">
+                <p class="form-control-plaintext">@Model.DateSubmitted.ToString("dd/MM/yyyy HH:mm")</p>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-10 offset-md-2">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div class="mt-2">
+    @Html.ActionLink("Back to List", "Index", "Dashboard")
+</div>

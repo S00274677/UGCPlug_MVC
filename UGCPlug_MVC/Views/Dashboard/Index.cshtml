@@ -1,0 +1,104 @@
+﻿@model List<UGCPlug_MVC.Models.Submission>
+
+@{
+    if (Session["BusinessId"] == null)
+    {
+        Response.Redirect("~/Auth/Login");
+    }
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Dashboard</title>
+    <script>
+    // If page is loaded from back/forward cache, force reload
+    window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+    </script>
+
+</head>
+<body>
+    <div>
+        <h2>Welcome, @ViewBag.BusinessName!</h2>
+
+        <p>You are now logged in to the UGCPlug business dashboard.</p>
+
+        <p><a href="@Url.Action("Logout", "Auth")">Log Out</a></p>
+
+        <hr />
+
+        <h3>Your UGC Submissions</h3>
+
+        @if (TempData["EditSuccess"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["EditSuccess"]
+            </div>
+        }
+
+        @if (Model.Any())
+        {
+            <table class="table table-striped table-bordered mt-3">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Date of Birth</th>
+                        <th>City</th>
+                        <th>Country</th>
+                        <th>Date Taken</th>
+                        <th>File URL</th>
+                        <th>Consent Given</th>
+                        <th>Date Submitted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.FirstName</td>
+                            <td>@item.LastName</td>
+                            <td>@item.Email</td>
+                            <td>@(item.DateOfBirth?.ToShortDateString() ?? "N/A")</td>
+                            <td>@item.City</td>
+                            <td>@item.Country</td>
+                            <td>
+                                @(item.DateTaken.HasValue ? item.DateTaken.Value.ToShortDateString() : "N/A")
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(item.FileUrl))
+                                {
+                                    <img src="@("http://localhost:51175" + item.FileUrl)" alt="Image" style="max-width: 150px;" />
+                                }
+                                else
+                                {
+                                    <span>No image</span>
+                                }
+                            </td>
+                            <td>@(item.ConsentGiven ? "Yes" : "No")</td>
+                            <td>@(item.DateSubmitted.ToString("g") ?? "N/A")</td>
+                            <td>
+                                <a href="@Url.Action("Edit", "Dashboard", new { id = item.Id })" class="btn btn-sm btn-warning">Edit</a>
+                                <a href="@Url.Action("Delete", "Dashboard", new { id = item.Id })" class="btn btn-sm btn-danger ms-1">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>No submissions found for your business yet.</p>
+        }
+    </div>
+</body>
+</html>

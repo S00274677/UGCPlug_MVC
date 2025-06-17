@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Welcome to UGCPlug - ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="jumbotron text-center">
+    <h1>UGCPlug</h1>
+    <p class="lead">
+        Collect and use user-generated content legally — no legal team or complex setup needed.
+    </p>
+    <p>
+        <a class="btn btn-primary btn-lg" href="@Url.Action("Register", "Auth")">Get Started</a>
+        <a class="btn btn-default btn-lg" href="@Url.Action("Login", "Auth")">Log In</a>
+    </p>
+</div>
+
+<div class="container">
+    <div class="row text-center">
+        <div class="col-md-4">
+            <h3>Plug-and-Play</h3>
+            <p>Install our widget in minutes. No developer needed.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Legal Peace of Mind</h3>
+            <p>Every submission is backed by clear terms and consent.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Built for Small Business</h3>
+            <p>Lightweight, affordable, and designed for real-world brands.</p>
+        </div>
+    </div>
+
+    <hr />
+
+    <div class="text-center">
+        <p>
+            <a href="@Url.Action("HowItWorks", "Home")">How It Works</a> |
+            <a href="@Url.Action("Contact", "Home")">Contact Us</a>
+        </p>
+    </div>
+</div>
